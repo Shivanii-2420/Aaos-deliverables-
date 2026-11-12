@@ -1,5 +1,7 @@
 # AAOS — Advanced AI Operations Suite
 
+This repository contains one of the projects created for CTS deliverables.
+
 AAOS is a local-first prototype for evaluating text responses from configured AI providers. It stores evaluation runs and traces, calculates basic response scores and risk records, and can produce a PDF summary. Its default provider is a deterministic mock, so the local demonstration does not require credentials or call an external model.
 
 ## Final review deliverables
