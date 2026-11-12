@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <title>AAOS | AI Assurance</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/ui"><span class="brand-mark">A</span><span>AAOS <small>AI ASSURANCE</small></span></a>
+    <span id="connection" class="pill">Checking backend…</span>
+  </header>
+
+  <main>
+    <form id="auth-form" class="card auth-card" hidden>
+      <p class="eyebrow">LOCAL API ACCESS</p>
+      <h2>Enter the AAOS API token</h2>
+      <p class="hint">The token is kept in this tab's session storage and is not embedded in the application.</p>
+      <label>Bearer token<input name="token" type="password" autocomplete="current-password" required></label>
+      <button type="submit">Unlock this tab</button>
+    </form>
+
+    <section class="intro">
+      <p class="eyebrow">ADVANCED AI OPERATIONS SUITE</p>
+      <h1>Test an AI. See the evidence.</h1>
+      <p class="muted">Create a local evaluation, inspect its scores, and generate a report. The default mock provider is offline and makes no paid AI calls.</p>
+    </section>
+
+    <section class="stats" aria-label="Project summary">
+      <article class="card stat"><span>Total runs</span><strong id="total-runs">—</strong></article>
+      <article class="card stat"><span>Completed</span><strong id="completed-runs">—</strong></article>
+      <article class="card stat"><span>Failed</span><strong id="failed-runs">—</strong></article>
+      <article class="card stat"><span>Average score</span><strong id="average-score">—</strong></article>
+    </section>
+
+    <section class="workspace">
+      <form id="evaluation-form" class="card form-card">
+        <div class="section-heading">
+          <div><p class="eyebrow">LOCAL DEMO</p><h2>Run an evaluation</h2></div>
+          <span class="pill safe">Mock · no API key</span>
+        </div>
+        <label>AI system name<input name="agent" value="Local Demo Agent" required maxlength="120"></label>
+        <label>Prompt<input name="prompt" value="A sample prompt" required maxlength="2000"></label>
+        <label>Expected answer<input name="expected" value="Mock response." required maxlength="4000"></label>
+        <label class="checkbox-label">
+          <input name="use_dataset" type="checkbox">
+          Create a dataset snapshot for this evaluation
+        </label>
+        <button id="run-button" type="submit" disabled>Create and run test</button>
+        <p class="hint">The mock provider always replies “Mock response.” This verifies AAOS’s workflow, not an actual AI model.</p>
+      </form>
+
+      <section class="card result-card" aria-live="polite">
+        <div class="section-heading"><div><p class="eyebrow">LATEST RESULT</p><h2>Assessment evidence</h2></div></div>
+        <div id="result" class="empty">Run a local evaluation to show results here.</div>
+        <div id="run-evidence"></div>
+        <div class="actions">
+          <button id="attack-button" class="secondary" type="button" disabled>Run built-in mock probes</button>
+          <button id="report-button" class="secondary" type="button" disabled>Download PDF report</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="workspace hallucination-workspace">
+      <form id="hallucination-form" class="card form-card">
+        <div class="section-heading">
+          <div><p class="eyebrow">OFFLINE CHECKS</p><h2>Hallucination evaluation</h2></div>
+          <span class="pill safe">No model calls</span>
+        </div>
+        <label>Original prompt<textarea name="prompt" rows="3" maxlength="12000" required></textarea></label>
+        <label>AI-generated response<textarea name="response" rows="5" maxlength="20000" required></textarea></label>
+        <label>Optional reference context or documents<textarea name="reference_context" rows="5" maxlength="50000"></textarea></label>
+        <button id="hallucination-button" type="submit">Evaluate response</button>
+        <p class="hint">Uses direct text matching and explicit contradiction checks only. Unverifiable claims are not treated as false.</p>
+      </form>
+      <section class="card">
+        <div class="section-heading"><div><p class="eyebrow">CLAIMS & EVIDENCE</p><h2>Factual reliability</h2></div></div>
+        <div id="hallucination-result" class="empty">Submit a prompt and response to inspect claims.</div>
+      </section>
+    </section>
+
+    <section class="card history-card">
+      <div class="section-heading"><div><p class="eyebrow">DATABASE</p><h2>Recent runs</h2></div><button id="refresh-button" class="text-button" type="button">Refresh</button></div>
+      <div id="history" class="empty">No run data loaded.</div>
+    </section>
+
+    <section class="workspace assurance-workspace">
+      <section class="card">
+        <div class="section-heading">
+          <div><p class="eyebrow">ADAPTIVE ASSURANCE</p><h2>Evidence gaps and test selection</h2></div>
+          <button id="adaptive-button" class="secondary" type="button" disabled>Run EGAA</button>
+        </div>
+        <p class="hint">Selects the next test from risk-weighted evidence gaps. This is an evidence summary, not a safety certification.</p>
+        <div id="adaptive-result" class="empty">Run a baseline evaluation to enable adaptive assurance.</div>
+        <div id="adaptive-history"></div>
+      </section>
+      <section class="card">
+        <div class="section-heading">
+          <div><p class="eyebrow">OPTIONAL FRAMEWORKS</p><h2>Assurance tools</h2></div>
+          <button id="tools-refresh" class="text-button" type="button">Refresh</button>
+        </div>
+        <div id="tool-status" class="empty">Checking optional tool availability…</div>
+        <h3>Provider configuration</h3>
+        <div id="provider-status" class="empty">Loading provider configuration…</div>
+        <div class="actions">
+          <button id="garak-button" class="secondary" type="button" disabled>Run allowlisted Garak test probes</button>
+          <button id="deepeval-button" class="secondary" type="button" disabled>Run DeepEval exact match</button>
+        </div>
+        <div id="tool-results" class="empty"></div>
+      </section>
+    </section>
+
+    <p id="notice" class="notice" role="status"></p>
+  </main>
+
+  <footer>AAOS local prototype · Scores are simple heuristics, not a safety certification.</footer>
+</body>
+</html>

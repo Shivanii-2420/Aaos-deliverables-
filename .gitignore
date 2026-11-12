@@ -1,0 +1,10 @@
+.venv/
+.venv-aaos/
+**/__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+*.db
+reports/*.pdf
+node_modules/
